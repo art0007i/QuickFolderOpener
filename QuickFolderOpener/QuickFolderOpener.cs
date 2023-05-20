@@ -66,8 +66,11 @@ namespace QuickFolderOpener
                     var rec = (await Engine.Current.RecordManager.FetchRecord(ruri)).Entity;
                     await default(ToWorld);
                     Msg($"opening inventory {rec.OwnerId}, {rec.Path}, {i.TargetName.Value}");
-                                                                                // yes, froox uses backslash for paths internally. it makes me cry
-                    inv?.Target?.Open(new RecordDirectory(rec.OwnerId, rec.Path + "\\" + rec.Name, Engine.Current, i.TargetName.Value), FrooxEngine.UIX.SlideSwapRegion.Slide.Left);
+                    inv?.Target.RunSynchronously(() => 
+                    {
+                        // yes, froox uses backslash for paths internally. it makes me cry
+                        inv?.Target?.Open(new RecordDirectory(rec.OwnerId, rec.Path + "\\" + rec.Name, Engine.Current, i.TargetName.Value), FrooxEngine.UIX.SlideSwapRegion.Slide.Left);
+                    });
                 };
             }
         }
