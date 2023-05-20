@@ -59,7 +59,11 @@ namespace QuickFolderOpener
                     // if it doesn't exist, or is inactive
                     if (invPanel.Target == null || !invPanel.Target.Slot.ActiveSelf)
                     {
-                        dash.ToggleLegacyInventory();
+                        Debug("Toggling legacy inventory...");
+                        dash.RunSynchronously(() =>
+                        {
+                            dash.ToggleLegacyInventory();
+                        });
                     }
                     CoroutineManager.Manager.Value = i.World.Coroutines;
                     await default(ToBackground);
