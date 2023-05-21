@@ -16,7 +16,7 @@ namespace QuickFolderOpener
     {
         public override string Name => "QuickFolderOpener";
         public override string Author => "art0007i";
-        public override string Version => "1.0.0";
+        public override string Version => "1.0.1";
         public override string Link => "https://github.com/art0007i/QuickFolderOpener/";
         public override void OnEngineInit()
         {
