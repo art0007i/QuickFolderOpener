@@ -1,5 +1,5 @@
 using HarmonyLib;
-using NeosModLoader;
+using ResoniteModLoader;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using FrooxEngine;
 using System.Reflection.Emit;
-using BaseX;
-using CloudX.Shared;
+using Elements.Core;
+using SkyFrost.Base;
 
 namespace QuickFolderOpener
 {
-    public class QuickFolderOpener : NeosMod
+    public class QuickFolderOpener : ResoniteMod
     {
         public override string Name => "QuickFolderOpener";
         public override string Author => "art0007i";
-        public override string Version => "1.0.1";
+        public override string Version => "2.0.0";
         public override string Link => "https://github.com/art0007i/QuickFolderOpener/";
         public override void OnEngineInit()
         {
@@ -36,12 +36,10 @@ namespace QuickFolderOpener
                 };
                 foreach (var code in codes)
                 {
-                    Msg(code.ToString());
                     yield return code;
                     // too lazy to type out all the method args for proper reflection
                     if ((code.operand as MethodInfo)?.Name == "AddItem")
                     {
-                        Msg("WE IN THERE!!!!");
                         foreach (var c in injects) yield return c;
                     }
                 }
@@ -50,10 +48,10 @@ namespace QuickFolderOpener
             public static void InsertContextMenu(InventoryLink i, ContextMenu m)
             {
                 var ruri = i.Target.Value;
-                if (ruri.Scheme != "neosrec") return;
-                m.AddItem("Open Folder", NeosAssets.Common.Icons.Folder, color.Orange).Button.LocalPressed += async (b,e) => { 
+                if (ruri.Scheme != "resrec") return;
+                m.AddItem("Open Folder", OfficialAssets.Common.Icons.Folder, colorX.Orange).Button.LocalPressed += async (b,e) => { 
                     var dash = Userspace.UserspaceWorld.GetGloballyRegisteredComponent<UserspaceRadiantDash>();
-                    SyncRef<NeosCanvasPanel> invPanel = Traverse.Create(dash).Field("_legacyInventoryPanel").GetValue() as SyncRef<NeosCanvasPanel>;
+                    SyncRef<LegacyCanvasPanel> invPanel = Traverse.Create(dash).Field("_legacyInventoryPanel").GetValue() as SyncRef<LegacyCanvasPanel>;
                     SyncRef<InventoryBrowser> inv = Traverse.Create(dash).Field("_legacyInventory").GetValue() as SyncRef<InventoryBrowser>;
 
                     // if it doesn't exist, or is inactive
@@ -69,7 +67,7 @@ namespace QuickFolderOpener
                     await default(ToBackground);
                     var rec = (await Engine.Current.RecordManager.FetchRecord(ruri)).Entity;
                     await default(ToWorld);
-                    Msg($"opening inventory {rec.OwnerId}, {rec.Path}, {i.TargetName.Value}");
+                    Debug($"opening inventory {rec.OwnerId}, {rec.Path}, {i.TargetName.Value}");
                     inv?.Target?.RunSynchronously(() => 
                     {
                         // yes, froox uses backslash for paths internally. it makes me cry
