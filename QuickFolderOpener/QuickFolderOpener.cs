@@ -1,14 +1,11 @@
 using HarmonyLib;
 using ResoniteModLoader;
-using System;
-using System.Linq;
+using FrooxEngine.Store;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using FrooxEngine;
 using System.Reflection.Emit;
 using Elements.Core;
-using SkyFrost.Base;
 
 namespace QuickFolderOpener
 {
@@ -16,7 +13,7 @@ namespace QuickFolderOpener
     {
         public override string Name => "QuickFolderOpener";
         public override string Author => "art0007i";
-        public override string Version => "2.0.0";
+        public override string Version => "2.0.1";
         public override string Link => "https://github.com/art0007i/QuickFolderOpener/";
         public override void OnEngineInit()
         {
